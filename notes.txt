@@ -1,0 +1,80 @@
+steps 
+1 -- import package java.sql 
+2 -- load driver 
+3 -- register driver
+4 -- create connectoin 
+5 -- create statement 
+6 -- exe statement 
+7 -- exit
+
+
+step by step 2 approaches ---
+1 - using maven 
+
+   1 - set maven and add dependency from mavenrepository.com
+   2 -  <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.8</version>
+        </dependency>
+
+    3 - at top -- import java.sql.*;
+    4 - load class -- Class.forName("org.postgresql.Driver"); optional 
+    5 - build connection -- Connection con = DriverManager.getConnection(url,name,pass);
+        
+        a - url - String url = "jdbc:postgresql://localhost:5432/demo";
+
+    6 - statement -- Statement st = con.createStatement();
+    7 - execute query -- ResultSet rs = st.executeQuery(query);
+    8 - rs.next() to go on 1st line
+    9 - get fields 
+        
+        String name_std = rs.getString("name");
+        int id = rs.getInt("sid");
+        int marks = rs.getInt("marks");
+
+2 - using intellij 
+
+    1 - download jar file for postgresql 
+    and follow from step 3 of above
+
+
+
+
+for single record -
+
+String query ="select * from student where sid=2";
+rs.next();
+        String name_std = rs.getString("name");
+        int id = rs.getInt("sid");
+        int marks = rs.getInt("marks");
+
+for mulitiple recod -
+
+String query ="select * from student ";
+while(rs.next()){
+            System.out.print(rs.getInt("sid"));
+            System.out.print(rs.getString("name"));
+            System.out.print(rs.getInt("marks"));
+            System.out.println();
+        }
+
+
+
+
+for user input 
+
+connectoin remain same .. 
+from their 
+
+int newid= 6;
+        String newname ="ram";
+        int newmarks=19;
+
+        query = "insert into student values (?,?,?)";
+        PreparedStatement st1 = con.prepareStatement(query);
+        st1.setInt(1,newid);
+        st1.setString(2,newname);
+        st1.setInt(3,newmarks);
+
+        st1.execute();
